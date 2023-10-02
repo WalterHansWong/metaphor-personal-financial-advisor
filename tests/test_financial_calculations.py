@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from app.financial_calculations import get_stock_articles
+from app.financial_calculations import get_stock_articles, get_treasury_yield
 
 class TestFinancialCalculations(unittest.TestCase):
 
@@ -34,6 +34,39 @@ class TestFinancialCalculations(unittest.TestCase):
 
         # Asserting that the function returns the correct results
         self.assertEqual(articles, mock_results)
+
+    @patch('app.financial_calculations.requests.get')  # This line patches requests.get with a mock object
+    def test_get_treasury_yield(self, mock_get):
+        # Arrange
+        mock_response = mock_get.return_value
+        mock_response.json.return_value = {
+            'data': [{'date': '2023-09-28', 'value': '4.38'}]
+        }  # This is the response that requests.get(url).json() will return
+
+        # Act
+        maturity, date, value = get_treasury_yield(1000)
+
+        # Assert
+        self.assertEqual(maturity, '2year')
+        self.assertEqual(date, '2023-09-28')
+        self.assertEqual(value, '4.38')
+
+    @patch('app.financial_calculations.requests.get')  # This line patches requests.get with a mock object
+    def test_get_treasury_yield_rounding(self, mock_get):
+        # Arrange
+        mock_response = mock_get.return_value
+        mock_response.json.return_value = {
+            'data': [{'date': '2023-09-28', 'value': '4.38'}]
+        }  # This is the response that requests.get(url).json() will return
+
+        # Act
+        maturity1, date, value = get_treasury_yield(8 * 365)
+        maturity2, date, value = get_treasury_yield(60 * 365)
+
+        # Assert
+        self.assertEqual(maturity1, '7year') # 8 years is closer to 7 than 10
+        self.assertEqual(maturity2, '30year') # 60 years is closest to 30 years
+        
 
 if __name__ == '__main__':
     unittest.main()
