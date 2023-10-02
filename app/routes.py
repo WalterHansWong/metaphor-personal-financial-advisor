@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from app import app
+from app.financial_calculations import get_stock_articles
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -25,6 +26,9 @@ def index():
         # output is current interest rates at different banks
         # return on current GIC and government bonds
         # compared to benchmark S&P 500 growth (past x timeframe) for reference
+        # articles from experts - the best stocks to buy today
+        articles = get_stock_articles()
+        session['articles'] = articles
 
         # Redirect to the output page TODO: output function and template
         return redirect(url_for('output'))
@@ -34,5 +38,6 @@ def index():
 @app.route('/output')
 def output():
     # TODO: code to display the output
-    return render_template('output.html')
+    articles = session.get('articles', [])  # retrieve articles from session
+    return render_template('output.html', articles=articles)
 

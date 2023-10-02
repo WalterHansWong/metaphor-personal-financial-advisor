@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-4">
+    <h1 class="text-center mb-4">Output</h1>
+    {% if articles %}
+        <div class="row">
+        {% for article in articles %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ article.title }}</h5>
+                        <p class="card-text">Published Date: {{ article.published_date }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ article.url }}" target="_blank" class="btn btn-primary btn-sm">Read More</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center">No articles found.</p>
+    {% endif %}
+</div>
+{% endblock %}
