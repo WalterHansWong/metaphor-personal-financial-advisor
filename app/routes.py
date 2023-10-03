@@ -44,7 +44,9 @@ def index():
 @app.route('/output')
 def output():
     articles = session.get('articles', [])  # retrieve articles from session
+
     maturity, date = session.get('treasury_yield', (None, None))
+
     readable_equivalents = {
         '3month': '3 months',
         '2year': '2 years',
@@ -53,5 +55,7 @@ def output():
         '10year': '10 years',
         '30year': '30 years'
     }
-    return render_template('output.html', articles=articles, maturity=readable_equivalents[maturity], date=date)
+    readable_maturity = readable_equivalents.get(maturity, maturity)  # default to raw maturity if not found in the dictionary
+
+    return render_template('output.html', articles=articles, maturity=readable_maturity, date=date)
 
