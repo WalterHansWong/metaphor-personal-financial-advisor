@@ -2,27 +2,36 @@
 
 {% block content %}
 <div class="container my-4">
-    <h1 class="text-center mb-4">Output</h1>
+    <h1 class="text-center mb-4">Here's what you can do with your money!</h1>
+    
     {% if session.get('graph_filename') %}
-    <div class="text-center mb-4">
-        <img src="{{ url_for('static', filename='images/' + session['graph_filename']) }}" alt="Money Growth Graph" class="img-fluid">
-    </div>
+        <h3 class="text-center mb-2">Invest in Treasury Bonds</h3>
+        <div class="text-center mb-2">
+            <img src="{{ url_for('static', filename='images/' + session['graph_filename']) }}" alt="Money Growth Graph" class="img-fluid">
+        </div>
+        {% if maturity and date %}
+            <p class="text-center mb-4">
+                The closest maturity period is {{ maturity }} and the rate is up to date as of {{ date }}.
+            </p>
+        {% endif %}
     {% endif %}
+    
     {% if articles %}
+        <h3 class="text-center mb-4">Read more about what stocks to buy today</h3>
         <div class="row">
-        {% for article in articles %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ article.title }}</h5>
-                        <p class="card-text">Published Date: {{ article.published_date }}</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="{{ article.url }}" target="_blank" class="btn btn-primary btn-sm">Read More</a>
+            {% for article in articles %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ article.title }}</h5>
+                            <p class="card-text">Published Date: {{ article.published_date }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ article.url }}" target="_blank" class="btn btn-primary btn-sm">Read More</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
         </div>
     {% else %}
         <p class="text-center">No articles found.</p>

@@ -17,7 +17,7 @@ def get_stock_articles():
     start_date_str = str(start_date)
 
     query = "Best stocks to buy today"
-    search_response = metaphor.search(query=query, num_results=12, start_published_date=start_date_str, use_autoprompt=True)
+    search_response = metaphor.search(query=query, num_results=9, start_published_date=start_date_str, use_autoprompt=True)
 
     return search_response.results
 

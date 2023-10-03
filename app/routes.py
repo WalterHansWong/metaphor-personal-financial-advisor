@@ -23,11 +23,10 @@ def index():
         if timeframe_unit == 'years':
             timeframe = timeframe * 365  # Assuming 1 year = 365 days
 
-        # TODO: process the data and generate the output
-        # output is current interest rates at different banks
-        # return on current GIC and government bonds
-        # compared to benchmark S&P 500 growth (past x timeframe) for reference
-        # articles from experts - the best stocks to buy today
+        # TODO: add more alternatives to compare such as:
+        # current savings account interest rates at different banks
+        # current CD rates
+        # predicted performance of relevant index/mutual funds, stock market indices
         articles = get_stock_articles()
         session['articles'] = articles
 
@@ -44,8 +43,15 @@ def index():
 
 @app.route('/output')
 def output():
-    # TODO: code to display the output
     articles = session.get('articles', [])  # retrieve articles from session
-    maturity, data = session.get('treasury_yield', (None, None))
-    return render_template('output.html', articles=articles)
+    maturity, date = session.get('treasury_yield', (None, None))
+    readable_equivalents = {
+        '3month': '3 months',
+        '2year': '2 years',
+        '5year': '5 years',
+        '7year': '7 years',
+        '10year': '10 years',
+        '30year': '30 years'
+    }
+    return render_template('output.html', articles=articles, maturity=readable_equivalents[maturity], date=date)
 
