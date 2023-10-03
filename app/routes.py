@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import render_template, request, redirect, url_for, session
 from app import app
 from app.financial_calculations import get_stock_articles, get_treasury_yield
 from app.money_growth_graph import save_plot
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -41,6 +42,7 @@ def index():
 
     return render_template('index.html')
 
+
 @app.route('/output')
 def output():
     articles = session.get('articles', [])  # retrieve articles from session
@@ -55,7 +57,7 @@ def output():
         '10year': '10 years',
         '30year': '30 years'
     }
-    readable_maturity = readable_equivalents.get(maturity, maturity)  # default to raw maturity if not found in the dictionary
+    # default to raw maturity if not found in the dictionary
+    readable_maturity = readable_equivalents.get(maturity, maturity)
 
     return render_template('output.html', articles=articles, maturity=readable_maturity, date=date)
-

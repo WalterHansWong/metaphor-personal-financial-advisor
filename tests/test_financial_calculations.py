@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch, MagicMock
 from app.financial_calculations import get_stock_articles, get_treasury_yield
 
+
 class TestFinancialCalculations(unittest.TestCase):
 
     @patch('app.financial_calculations.Metaphor')
@@ -35,7 +36,8 @@ class TestFinancialCalculations(unittest.TestCase):
         # Asserting that the function returns the correct results
         self.assertEqual(articles, mock_results)
 
-    @patch('app.financial_calculations.requests.get')  # This line patches requests.get with a mock object
+    # This line patches requests.get with a mock object
+    @patch('app.financial_calculations.requests.get')
     def test_get_treasury_yield(self, mock_get):
         # Arrange
         mock_response = mock_get.return_value
@@ -51,7 +53,8 @@ class TestFinancialCalculations(unittest.TestCase):
         self.assertEqual(date, '2023-09-28')
         self.assertEqual(value, '4.38')
 
-    @patch('app.financial_calculations.requests.get')  # This line patches requests.get with a mock object
+    # This line patches requests.get with a mock object
+    @patch('app.financial_calculations.requests.get')
     def test_get_treasury_yield_rounding(self, mock_get):
         # Arrange
         mock_response = mock_get.return_value
@@ -64,9 +67,9 @@ class TestFinancialCalculations(unittest.TestCase):
         maturity2, date, value = get_treasury_yield(60 * 365)
 
         # Assert
-        self.assertEqual(maturity1, '7year') # 8 years is closer to 7 than 10
-        self.assertEqual(maturity2, '30year') # 60 years is closest to 30 years
-        
+        self.assertEqual(maturity1, '7year')  # 8 years is closer to 7 than 10
+        self.assertEqual(maturity2, '30year')  # 60 years is closest to 30 years
+
 
 if __name__ == '__main__':
     unittest.main()

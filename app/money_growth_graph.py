@@ -4,6 +4,7 @@ import os
 
 plt.switch_backend('Agg')
 
+
 def calculate_growth(principal, rate, months):
     """
     Calculates the growth of an investment.
@@ -19,6 +20,7 @@ def calculate_growth(principal, rate, months):
         values.append(principal)
     return values
 
+
 def save_plot(principal, rate, maturity):
     time_mapping = {
         '3month': 3,
@@ -32,11 +34,11 @@ def save_plot(principal, rate, maturity):
     months = time_mapping[maturity]
 
     # convert rate returned by API to monthly rate
-    rate = (rate / 100) / 12 
+    rate = (rate / 100) / 12
 
     y_values = calculate_growth(principal, rate, months)
     x_values = list(range(months + 1))
-    
+
     sns.set_style("darkgrid")
 
     plt.figure(figsize=(10, 6))
