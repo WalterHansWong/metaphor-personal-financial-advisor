@@ -3,6 +3,11 @@
 {% block content %}
 <div class="container my-4">
     <h1 class="text-center mb-4">Output</h1>
+    {% if session.get('graph_filename') %}
+    <div class="text-center mb-4">
+        <img src="{{ url_for('static', filename='images/' + session['graph_filename']) }}" alt="Money Growth Graph" class="img-fluid">
+    </div>
+    {% endif %}
     {% if articles %}
         <div class="row">
         {% for article in articles %}

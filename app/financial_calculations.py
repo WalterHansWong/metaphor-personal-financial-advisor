@@ -60,7 +60,7 @@ def get_treasury_yield(timeframe: int):
     r = requests.get(url)
     info = r.json()
 
-    return maturity, info['data'][0]['date'], info['data'][0]['value']
+    return (maturity, info['data'][0]['date'], info['data'][0]['value'])
 
 def get_best_interest_rate():
     # TODO

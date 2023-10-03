@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from app import app
-from app.financial_calculations import get_stock_articles
+from app.financial_calculations import get_stock_articles, get_treasury_yield
+from app.money_growth_graph import save_plot
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -30,7 +31,13 @@ def index():
         articles = get_stock_articles()
         session['articles'] = articles
 
-        # Redirect to the output page TODO: output function and template
+        maturity, date, value = get_treasury_yield(timeframe=timeframe)
+        save_plot(principal=dollar_amount, rate=float(value), maturity=maturity)
+        session['treasury_yield'] = (maturity, date)
+
+        filename = f"{dollar_amount}_{maturity}_graph.png"
+        session['graph_filename'] = filename
+
         return redirect(url_for('output'))
 
     return render_template('index.html')
@@ -39,5 +46,6 @@ def index():
 def output():
     # TODO: code to display the output
     articles = session.get('articles', [])  # retrieve articles from session
+    maturity, data = session.get('treasury_yield', (None, None))
     return render_template('output.html', articles=articles)
 
