@@ -1,9 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+    body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .container {
+        width: 100%;
+        margin: auto;
+    }
+    .opaque-window {
+        background-color: rgba(255, 254, 254, 0.859); /* white background with 80% opacity */
+        padding: 20px;
+        border-radius: 10px; /* optional: for rounded corners */
+    }
+</style>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-4"> 
+        <div class="col-md-4 opaque-window">
             <h1 class="my-4 text-center">I have ______ dollars to invest for ______</h1>
             <form action="/" method="post">
                 <div class="form-group">
